@@ -1,1 +1,1 @@
-Initial readme file for the app
+Initial readme file for the Project
