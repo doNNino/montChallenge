@@ -1,25 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Grid from "@material-ui/core/Grid";
+import noImage from "../../no-image.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 236,
+    maxHeight: 432,
   },
   media: {
     height: 0,
@@ -44,48 +38,55 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "30px !important",
   },
 }));
-
-export default function BookCard() {
+// start of the component
+export default function BookCard(props) {
   // custom style classes
   const classes = useStyles();
-
+  // destructuring props
+  const { details } = props;
+  // book details
+  const authorName = details.author_name ? details.author_name[0] : "";
+  const authorInitials =
+    authorName.match(/[A-Z]/g) !== null
+      ? authorName.match(/[A-Z]/g).join("")
+      : "";
+  const subject = details.subject ? details.subject[0] : "";
+  const publisher = details.publisher ? details.publisher[0] : "";
+  const time = details.time ? details.time[0] : "";
+  const imageSrc = details.cover_i
+    ? `http://covers.openlibrary.org/b/ID/${details.cover_i}-M.jpg`
+    : noImage;
   return (
-    <Grid item lg={4} md={6} sm={12} xs={12} className={classes.gridStyle}>
+    <Grid item lg={3} md={4} sm={6} xs={12} className={classes.gridStyle}>
       <Card className={classes.root} onClick={() => console.log("radi")}>
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              R
+              {authorInitials}
             </Avatar>
           }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
+          title={details.title_suggest}
+          subheader={`First publish year: ${details.first_publish_year}`}
         />
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/paella.jpg"
+          image={imageSrc}
           title="Paella dish"
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
+            Author: {authorName}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Time: {time}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Subject: {subject}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Publisher: {publisher}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
       </Card>
     </Grid>
   );

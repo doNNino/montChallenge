@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 // Custom components imports
 import Search from "./Search";
 import BookCard from "./BookCard";
+import BasicPagination from "../bookList/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   gridStyle: {
     padding: "25px",
   },
+  searchGridStyle: {
+    margin: "auto",
+  },
 }));
 
 function Homepage(props) {
@@ -29,10 +33,10 @@ function Homepage(props) {
   // redux state destructuring
   const { books } = props;
   return (
-    <Container className="h-100">
+    <Container className="h-100" maxWidth="xl">
       <div className={classes.root}>
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
+        <Grid container spacing={4} className="mt-2">
+          <Grid item md={6} sm={12} xs={12} className={classes.searchGridStyle}>
             <Search />
           </Grid>
           <Grid container className={classes.gridStyle}>
@@ -40,6 +44,7 @@ function Homepage(props) {
               <BookCard details={item} key={item.key} />
             ))}
           </Grid>
+          <BasicPagination />
         </Grid>
       </div>
     </Container>
