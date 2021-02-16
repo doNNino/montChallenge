@@ -8,14 +8,20 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
     width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
-export default function BasicPagination() {
+export default function BasicPagination(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Pagination count={10} color="primary" />
+      <Pagination
+        count={props.count}
+        color="primary"
+        onChange={(event, page) => props.paginate(page)}
+      />
     </div>
   );
 }

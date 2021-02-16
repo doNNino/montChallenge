@@ -36,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     paddingTop: "30px !important",
+    width: 360,
+    height: 374,
   },
 }));
 // start of the component
