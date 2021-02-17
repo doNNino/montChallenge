@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -9,11 +9,16 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import Grid from "@material-ui/core/Grid";
 import noImage from "../../no-image.png";
+import CardDetailsDialog from "../cardDetailDialog/CardDetailsDialog";
+import axios from "axios";
+// custom components
+import LoadingProgress from "../cardDetailDialog/LoadingProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 236,
     maxHeight: 432,
+    cursor: "pointer",
   },
   media: {
     height: 0,
@@ -39,42 +44,83 @@ const useStyles = makeStyles((theme) => ({
     width: 360,
     height: 374,
   },
+  // dialogStyle: {
+  //   [theme.breakpoints.down("md")]: {
+  //     minWidth: 600,
+  //   },
+  // },
 }));
 // start of the component
 export default function BookCard(props) {
+  //dialog props
+  const [open, setOpen] = useState(false);
+  const [worksDetails, setWorksAPIDetails] = useState({});
+  const [editionsDetails, setEditionsAPIDetails] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const handleClickOpen = async () => {
+    try {
+      setLoading(true);
+      const worksAPIDetails = details.key
+        ? await axios.get(`https://openlibrary.org${details.key}.json`)
+        : {};
+      const editionsAPIDetails = details.isbn
+        ? await axios.get(
+            `https://openlibrary.org/isbn/${details.isbn[0]}.json`
+          )
+        : {};
+      setWorksAPIDetails(worksAPIDetails.data ? worksAPIDetails.data : {});
+      setEditionsAPIDetails(
+        editionsAPIDetails.data ? worksAPIDetails.data : {}
+      );
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+    if (!loading) {
+      setOpen(true);
+    } else {
+      setLoading(false);
+      alert("ERROR FETCHING DATA");
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // custom style classes
   const classes = useStyles();
   // destructuring props
   const { details } = props;
   // book details
-  const authorName = details.author_name ? details.author_name[0] : "";
+  const authorName = details.author_name ? details.author_name[0] : "Unknown";
   const authorInitials =
     authorName.match(/[A-Z]/g) !== null
       ? authorName.match(/[A-Z]/g).join("")
       : "";
-  const subject = details.subject ? details.subject[0] : "";
-  const publisher = details.publisher ? details.publisher[0] : "";
-  const time = details.time ? details.time[0] : "";
+  const subject = details.subject ? details.subject[0] : "Unknown";
+  const publisher = details.publisher ? details.publisher[0] : "Unknown";
+  const time = details.time ? details.time[0] : "Unknown";
+  const title = details.title_suggest ? details.title.suggest : "No title";
+  const publishYear = details.first_publish_year
+    ? details.first_publish_year
+    : "Unknown";
   const imageSrc = details.cover_i
     ? `http://covers.openlibrary.org/b/ID/${details.cover_i}-M.jpg`
     : noImage;
   return (
     <Grid item lg={3} md={4} sm={6} xs={12} className={classes.gridStyle}>
-      <Card className={classes.root} onClick={() => console.log("radi")}>
+      <Card className={classes.root} onClick={handleClickOpen}>
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
               {authorInitials}
             </Avatar>
           }
-          title={details.title_suggest}
-          subheader={`First publish year: ${details.first_publish_year}`}
+          title={title}
+          subheader={`First publish year: ${publishYear}`}
         />
-        <CardMedia
-          className={classes.media}
-          image={imageSrc}
-          title="Paella dish"
-        />
+        <CardMedia className={classes.media} image={imageSrc} title={title} />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             Author: {authorName}
@@ -90,6 +136,18 @@ export default function BookCard(props) {
           </Typography>
         </CardContent>
       </Card>
+      {open && (
+        <CardDetailsDialog
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          bookDetails={details}
+          worksDetails={worksDetails}
+          editionsDetails={editionsDetails}
+          classes={classes}
+        />
+      )}
+      {loading && <LoadingProgress />}
     </Grid>
   );
 }
