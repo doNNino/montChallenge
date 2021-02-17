@@ -35,6 +35,12 @@ function Search(props) {
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
   };
+  // checking if enter was pressed if so fetch data
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      fetchBooks(searchValue);
+    }
+  };
 
   // destructuring redux actions
   const { fetchBooks } = props;
@@ -44,6 +50,7 @@ function Search(props) {
         <InputBase
           placeholder="Search…"
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,

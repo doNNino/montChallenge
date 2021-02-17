@@ -6,10 +6,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     position: "fixed",
-    zIndex: 5000,
+    zIndex: 1,
     top: 0,
     left: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
     height: "100%",
   },
 }));

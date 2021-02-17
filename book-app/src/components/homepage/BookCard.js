@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+// redux import
+import { connect } from "react-redux";
+// Material UI imports
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -12,7 +15,9 @@ import noImage from "../../no-image.png";
 import CardDetailsDialog from "../cardDetailDialog/CardDetailsDialog";
 import axios from "axios";
 // custom components
-import LoadingProgress from "../cardDetailDialog/LoadingProgress";
+import LoadingProgress from "../reusable/LoadingProgress";
+// redux acitons import
+import { loadingSet } from "../../redux/actions/appActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,23 +49,18 @@ const useStyles = makeStyles((theme) => ({
     width: 360,
     height: 374,
   },
-  // dialogStyle: {
-  //   [theme.breakpoints.down("md")]: {
-  //     minWidth: 600,
-  //   },
-  // },
 }));
 // start of the component
-export default function BookCard(props) {
+function BookCard(props) {
   //dialog props
   const [open, setOpen] = useState(false);
   const [worksDetails, setWorksAPIDetails] = useState({});
   const [editionsDetails, setEditionsAPIDetails] = useState({});
-  const [loading, setLoading] = useState(false);
-
+  // redux state props
+  const { loading, loadingSet } = props;
   const handleClickOpen = async () => {
     try {
-      setLoading(true);
+      loadingSet(true);
       const worksAPIDetails = details.key
         ? await axios.get(`https://openlibrary.org${details.key}.json`)
         : {};
@@ -73,15 +73,14 @@ export default function BookCard(props) {
       setEditionsAPIDetails(
         editionsAPIDetails.data ? worksAPIDetails.data : {}
       );
-      setLoading(false);
+      loadingSet(false);
     } catch (e) {
+      loadingSet(false);
+      alert("ERROR FETCHING DATA BECAUSE OF CORS POLICY");
       console.log(e);
     }
     if (!loading) {
       setOpen(true);
-    } else {
-      setLoading(false);
-      alert("ERROR FETCHING DATA");
     }
   };
 
@@ -151,3 +150,13 @@ export default function BookCard(props) {
     </Grid>
   );
 }
+// redux state props function
+const mapStateToProps = (state /* , ownProps*/) => {
+  return {
+    loading: state.appReducer.loading,
+  };
+};
+// redux action functions object
+const mapDispatchToProps = { loadingSet };
+// default export of the app connected with redux
+export default connect(mapStateToProps, mapDispatchToProps)(BookCard);

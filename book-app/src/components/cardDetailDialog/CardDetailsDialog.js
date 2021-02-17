@@ -29,7 +29,6 @@ export default function CardDetailsDialog({
       <Dialog
         open={open}
         TransitionComponent={Transition}
-        className={classes.dialogStyle}
         keepMounted
         onClose={handleClose}
         aria-labelledby="book-details-dialog"
