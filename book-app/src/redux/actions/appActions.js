@@ -38,6 +38,8 @@ export const fetchBooks = (searchValue) => async (dispatch, getState) => {
     await dispatch(loadingSet(false));
   } catch (error) {
     console.log(error);
+    await dispatch(loadingSet(false));
+    alert("ERROR FETCHING DATA, BECAUSE OF CORS POLICY");
     throw error;
   }
 };

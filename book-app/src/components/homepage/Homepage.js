@@ -86,7 +86,7 @@ function Homepage(props) {
             // render page without books
             <div className={classes.noBooksDivStyle}>
               <p className={classes.textSize}>
-                No book found, please insert different title
+                No books found, try another title.
               </p>
               <LocalLibraryIcon className={classes.iconSize} />
             </div>
