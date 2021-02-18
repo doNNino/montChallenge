@@ -6,5 +6,5 @@
 
 ### Folder Structure
 
-- Task 1 can be found inside the project in `<RootFolder>/<book-app>` folder(when cloning the repo and opening it, navigate to the `<book-app>` folder ex: cd book-app)
-- Task 2 and Task 3 can be found inside the project in `<RootFolder>/<node-tasks>` folder(when cloning the repo and opening it, navigate to the `<node-tasks>` folder ex: cd book-app)
+- Task 1 can be found inside the project in `<RootFolder>/<book-app>` folder(when cloning the repo and opening it, navigate to the `<book-app>` folder, example: `cd book-app`)
+- Task 2 and Task 3 can be found inside the project in `<RootFolder>/<node-tasks>` folder(when cloning the repo and opening it, navigate to the `<node-tasks>` folder, examle: `cd book-app`)
