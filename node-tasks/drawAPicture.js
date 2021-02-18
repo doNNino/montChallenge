@@ -1,3 +1,4 @@
+// function that will 'draw' a picture with * for given input string
 const drawAPicture = (inputString) => {
   // array of letters showing up inside the string with their indexes as positions
   const items = [];
@@ -52,18 +53,18 @@ const drawAPicture = (inputString) => {
           output[currentLetterRow][j] = "*";
         }
       } else {
-        for (j = currentLetterCol - 1; j >= nextLetterCol; j--) {
+        for (let j = currentLetterCol - 1; j >= nextLetterCol; j--) {
           output[currentLetterRow][j] = "*";
         }
       }
       // if the current and next letter are in the same column(creating vertical line)
     } else if (currentLetterCol === nextLetterCol) {
       if (currentLetterRow < nextLetterRow) {
-        for (j = currentLetterRow + 1; j < nextLetterRow; j++) {
+        for (let j = currentLetterRow + 1; j < nextLetterRow; j++) {
           output[j][currentLetterCol] = "*";
         }
       } else {
-        for (j = currentLetterRow - 1; j >= nextLetterRow; j--) {
+        for (let j = currentLetterRow - 1; j >= nextLetterRow; j--) {
           output[j][currentLetterCol] = "*";
         }
       }
@@ -90,13 +91,12 @@ const drawAPicture = (inputString) => {
       if (currentLetterRow > nextLetterRow) {
         // if current letter column index is smaller than next letter column index(current letter is on the 'left' comparing to next letter)
         if (currentLetterCol < nextLetterCol) {
-          for (j = 1; j < currentLetterRow - nextLetterRow; j++) {
+          for (let j = 1; j < currentLetterRow - nextLetterRow; j++) {
             output[currentLetterRow - j][currentLetterCol + j] = "*";
           }
           // if the current letter column index isi bigger than next letter column index(current letter is on the 'right' comparing to next letter)
         } else if (currentLetterCol > nextLetterCol) {
-          // dole desno - gore levo
-          for (j = 1; j < currentLetterRow - nextLetterRow; j++) {
+          for (let j = 1; j < currentLetterRow - nextLetterRow; j++) {
             output[currentLetterRow - j][currentLetterCol - j] = "*";
           }
         }
