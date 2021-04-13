@@ -106,8 +106,8 @@ const drawAPicture = (inputString) => {
   // final output string
   let outputString = "";
   // going through array and converting it into the string
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < height; j++) {
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
       outputString += output[i][j];
     }
     // adding end of the line after every 'row' inside array
@@ -118,7 +118,7 @@ const drawAPicture = (inputString) => {
 };
 
 // input string
-const inputString = "a    b\ne\n\n\n\nd    c";
+// const inputString = "a    b\ne\n\n\n\nd    c";
 // 2nd input string
-// const inputString = "   a\n  e\n\nd     b\n\n\n   c";
+const inputString = "   a\n  e\n\nd     b\n\n\n   c";
 drawAPicture(inputString);
